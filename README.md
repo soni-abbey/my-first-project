@@ -1,2 +1,2 @@
-# my-portfolio
+# my-portfolio-website
 This is my portfolio website on GithHub
