@@ -1,0 +1,65 @@
+<script>
+        $(document).ready(function() {
+            $('.thumb-item').on('click', function() {
+                var newImgSrc = $(this).attr('src');
+                var $parentItem = $(this).closest('.portfolio-item');
+                var $imgWrap = $parentItem.find('.main-img-wrap');
+                var $mainImg = $parentItem.find('#main-target-img');
+                var $popupLink = $parentItem.find('.work-main-popup-btn');
+
+                // Trigger Fadeout safely inside this block item context
+                if($imgWrap.length > 0) {
+                    $imgWrap.addClass('fade-out');
+
+                    setTimeout(function() {
+                        $mainImg.attr('src', newImgSrc);
+                        $popupLink.attr('href', newImgSrc);
+                        $imgWrap.removeClass('fade-out');
+                    }, 300);
+                }
+            });
+        });
+    </script>
+
+    <!-- CUSTOM GALLERY POPUP LOGIC -->
+    <script>
+        $(document).ready(function() {
+            // Loop through each separate portfolio item container
+            $('.portfolio-item').each(function() {
+                var $portfolioItem = $(this);
+                var itemsArray = [];
+
+                // Find all thumb items inside this specific portfolio item container
+                $portfolioItem.find('.thumb-item').each(function() {
+                    var src = $(this).attr('src');
+                    var title = $(this).attr('alt') || '';
+                    itemsArray.push({
+                        src: src,
+                        title: title
+                    });
+                });
+
+                // Attach Magnific Popup to the main box banner link inside this item
+                $portfolioItem.find('.work-main-popup-btn').magnificPopup({
+                    items: itemsArray,
+                    type: 'image',
+                    gallery: {
+                        enabled: true
+                    },
+                    callbacks: {
+                        // Dynamically set starting slide index based on layout context if needed
+                        beforeOpen: function() {
+                            this.st.gallery.tCounter = '%curr% of %total%';
+                        }
+                    }
+                });
+
+                // Clicking directly on any individual thumbnail opens the popup directly to that slide index
+                $portfolioItem.find('.thumb-item').on('click', function(e) {
+                    e.preventDefault();
+                    var index = $(this).index();
+                    $portfolioItem.find('.work-main-popup-btn').magnificPopup('open', index);
+                });
+            });
+        });
+    </script>
