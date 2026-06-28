@@ -1,2 +1,2 @@
-# my-first-project
-This is my first project on GithHub
+# my-portfolio
+This is my portfolio website on GithHub
